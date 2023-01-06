@@ -1,0 +1,31 @@
+.mt-15 {margin-top: 15px !important;}
+.mt-30 {margin-top: 30px !important;}
+.mt-50 {margin-top: 50px !important;}
+
+.mb-15 {margin-bottom: 15px !important;}
+.mb-30 {margin-bottom: 30px !important;}
+.mb-50 {margin-bottom: 50px !important;}
+
+.d-flex {
+    display: flex;
+
+    &.h-start {
+        justify-content: flex-start;
+    }
+    &.h-center {
+        justify-content: center;
+    }
+    &.h-end {
+        justify-content: flex-end;
+    }
+
+    &.v-start {
+        align-items: flex-start;
+    }
+    &.v-center {
+        align-items: center;
+    }
+    &.v-end {
+        align-items: flex-end;
+    }
+}

@@ -1,25 +1,33 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Menu</ion-title>
+        </ion-toolbar>
+      </ion-header>
       <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
-
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
+        <ion-list>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+            <ion-item [routerDirection]="p.url === '/home' ? 'root' : 'forward'" [routerLink]="[p.url]">
+              <ion-icon slot="start" [name]="p.icon"></ion-icon>
+              <ion-label>
+                {{ p.title }}
+              </ion-label>
             </ion-item>
           </ion-menu-toggle>
-        </ion-list>
-
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
+          <ion-menu-toggle auto-hide="false" *ngIf="players">
+            <ion-item [routerDirection]="'forward'" routerLink="/game">
+              <fa-icon slot="start" [icon]="faDice" [ngStyle]="{'color': !isIOS ? '#616e7e' : '#73849a', 'font-size': !isIOS ? '20px' : '22px'}"></fa-icon>
+              <ion-label>
+                Jogo em andamento
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-item (click)="toggleTheme()">
+            <ion-icon slot="start" name="moon"></ion-icon>
+            <ion-label>Modo escuro</ion-label>
+            <ion-toggle slot="end" [checked]="isDarkMode"></ion-toggle>
           </ion-item>
         </ion-list>
       </ion-content>

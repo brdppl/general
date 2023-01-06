@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <div class="btn-image new-game" (click)="addPlayers()">
+    <div class="overlay"></div>
+    <span>
+      <ion-icon slot="start" name="add"></ion-icon>
+      Novo jogo
+    </span>
+  </div>
+
+  <div class="btn-image rules" routerLink="/rules" routerDirection="forward">
+    <div class="overlay"></div>
+    <span>
+      Regras
+    </span>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/game" *ngIf="players">
+      <fa-icon [icon]="faDice" style="font-size: 24px;"></fa-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

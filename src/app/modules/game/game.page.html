@@ -1,0 +1,134 @@
+<div class="animation" (click)="closeAnimation()" *ngIf="isShowingAnimation">
+  <div class="pyro">
+    <div class="before"></div>
+    <div class="after"></div>
+  </div>
+  <div class="name">
+    <h3 class="animate__animated animate__bounceInUp animate__slow">
+      {{ result }}
+    </h3>
+    <h3 class="animate__animated animate__bounceInUp animate__slow animate__delay-1s">
+      {{ score }}
+    </h3>
+    <p class="animate__animated animate__bounceInUp animate__delay-4s">
+      Toque para fechar
+    </p>
+  </div>
+</div>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home" text="Voltar"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Jogo em andamento</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="finish()">Finalizar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th *ngFor="let player of players">
+          {{ player.name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.ponto1" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.ponto2" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.ponto3" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.ponto4" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.ponto5" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.ponto6" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>S</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.pontoS" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>F</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.pontoF" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>P</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.pontoP" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>G</td>
+        <td *ngFor="let player of players">
+          <ion-item>
+            <ion-input type="number" [(ngModel)]="player.pontoG" (ionChange)="calcTotal(player)"></ion-input>
+          </ion-item>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>T</td>
+        <td *ngFor="let player of players">
+          <div class="d-flex h-center" style="padding: 15px;">
+            <strong>{{ player.total }}</strong>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</ion-content>

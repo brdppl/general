@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FolderPageRoutingModule } from './folder-routing.module';
+import { ModalAddPlayerPageRoutingModule } from './modal-add-player-routing.module';
 
-import { FolderPage } from './folder.page';
+import { ModalAddPlayerPage } from './modal-add-player.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FolderPageRoutingModule
+    ModalAddPlayerPageRoutingModule
   ],
-  declarations: [FolderPage]
+  declarations: [ModalAddPlayerPage]
 })
-export class FolderPageModule {}
+export class ModalAddPlayerPageModule {}
