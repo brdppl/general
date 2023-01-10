@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { IPlayer } from './shared/models/player.model';
 import { GameService } from './shared/services/game.service';
+import { Device } from '@capacitor/device';
 
 enum COLOR_MODE {
   DARK = 'dark-mode',
@@ -30,6 +31,7 @@ export class AppComponent {
 
   public isIOS = false;
   public isDarkMode = false;
+  public hasSupportDarkMode = false;
   public players: IPlayer[] = [];
   public faDice = faDice;
   
@@ -57,6 +59,7 @@ export class AppComponent {
     this.platform.ready().then(async () => {
       this.isIOS = this.platform.is('ios');
       this.checkIfDarkMode();
+      this.checkDeviceVersion();
 
       this.players = await this.storage.get(this.gameService.playersToken);
   
@@ -81,6 +84,19 @@ export class AppComponent {
       document.body.setAttribute('data-theme', 'dark');
     } else {
       document.body.removeAttribute('data-theme');
+    }
+  }
+
+  private async checkDeviceVersion() {
+    const info = await Device.getInfo();
+    let major: number;
+    
+    if (!this.isIOS) {
+      major = Number(info.osVersion.split(' ')[1].split('.')[0]);
+      this.hasSupportDarkMode = major >= 10 ? true : false;
+    } else {
+      major = Number(info.osVersion.split('.')[0]);
+      this.hasSupportDarkMode = major >= 13 ? true : false;
     }
   }
 }
