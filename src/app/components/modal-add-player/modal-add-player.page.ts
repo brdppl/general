@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { IPlayer } from 'src/app/shared/models/player.model';
 import { GameService } from 'src/app/shared/services/game.service';
@@ -9,6 +9,8 @@ import { GameService } from 'src/app/shared/services/game.service';
   styleUrls: ['./modal-add-player.page.scss'],
 })
 export class ModalAddPlayerPage {
+  @ViewChildren('playerNameInput') public playerNameInputList!: QueryList<any>;
+
   public players: IPlayer[] = [{
     name: '',
     ponto1: null,
@@ -33,6 +35,10 @@ export class ModalAddPlayerPage {
     private alertController: AlertController
   ) { }
 
+  async ionViewDidEnter() {
+    this.playerNameInputList.last.el.setFocus();
+  }
+
   public dismiss() {
     this.modalCtrl.dismiss({
       'dismissed': true
@@ -54,6 +60,11 @@ export class ModalAddPlayerPage {
       pontoG: null,
       total: 0,
       index: this.players.length
+    });
+    this.playerNameInputList.changes.subscribe(inputs => {
+      setTimeout(() => {
+        inputs.last.el.setFocus();
+      }, 700);
     });
   }
 

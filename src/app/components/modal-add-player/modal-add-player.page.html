@@ -12,7 +12,7 @@
 <ion-content class="ion-padding">
   <ion-item *ngFor="let player of players; let i = index">
     <ion-label position="floating">Jogador {{i+1}}</ion-label>
-    <ion-input [(ngModel)]="player.name"></ion-input>
+    <ion-input [(ngModel)]="player.name" #playerNameInput></ion-input>
     <ion-buttons slot="end" *ngIf="i > 0">
       <ion-button (click)="dropPlayer(i)">
         <ion-icon slot="icon-only" name="trash"></ion-icon>
