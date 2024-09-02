@@ -24,7 +24,7 @@
               </ion-label>
             </ion-item>
           </ion-menu-toggle>
-          <ion-item (click)="toggleTheme()" *ngIf="hasSupportDarkMode">
+          <ion-item (click)="toggleTheme()">
             <ion-icon slot="start" name="moon"></ion-icon>
             <ion-label>Modo escuro</ion-label>
             <ion-toggle slot="end" [checked]="isDarkMode"></ion-toggle>
