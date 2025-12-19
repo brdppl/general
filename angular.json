@@ -141,7 +141,8 @@
   },
   "cli": {
     "schematicCollections": ["@ionic/angular-toolkit"],
-    "packageManager": "yarn"
+    "packageManager": "yarn",
+    "analytics": false
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {
