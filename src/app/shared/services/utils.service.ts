@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UtilsService {
-
   public capitalize(text: string) {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
@@ -12,10 +11,10 @@ export class UtilsService {
   // Random alert message
   public randomMessage(playerName: string) {
     const random = Math.floor(Math.random() * 3);
-    
-    switch(random) {
+
+    switch (random) {
       case 0:
-        return `Nunca duvidei de você ${this.capitalize(playerName)}!`;
+        return `Nunca duvidei de você, ${this.capitalize(playerName)}!`;
       case 1:
         return `${this.capitalize(playerName)} humilhou geral!`;
       case 2:

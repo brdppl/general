@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GameService } from 'src/app/shared/services/game.service';
-import { NavController, AlertController, AlertButton } from '@ionic/angular';
+import { NavController, AlertController, AlertButton, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { IPlayer } from 'src/app/shared/models/player.model';
 import * as _ from 'lodash';
@@ -28,6 +28,7 @@ export class GamePage implements OnInit, OnDestroy {
     private alert: AlertController,
     private storage: Storage,
     private util: UtilsService,
+    private platform: Platform,
   ) {
     this.subsription.add(
       this.gameService.getEmit().subscribe((players: IPlayer[] | null) => {
@@ -224,7 +225,7 @@ export class GamePage implements OnInit, OnDestroy {
 
   private async handleAlert(
     header = 'Valor Inválido',
-    message = 'O valor informado é permitido neste campo.',
+    message = 'O valor informado não é permitido neste campo.',
     buttons: (string | AlertButton)[] | undefined = ['OK'],
   ) {
     const alert = await this.alert.create({ header, message, buttons });
@@ -246,7 +247,14 @@ export class GamePage implements OnInit, OnDestroy {
       });
 
       if (!values.includes(null)) {
-        Keyboard.hide();
+        // Hide keyboard
+        if (this.platform.is('hybrid')) {
+          Keyboard.hide();
+        } else {
+          const inputs = document.getElementsByTagName('input');
+          Array.from(inputs).forEach(input => input.blur());
+        }
+
         this.isShowingAnimation = true;
         const winner = participants.reduce((a: any, b: any) => (a.total > b.total ? a : b));
 
