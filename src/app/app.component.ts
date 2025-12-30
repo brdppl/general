@@ -57,7 +57,7 @@ export class AppComponent {
       this.players = await this.storage.get(this.gameService.playersToken);
 
       this.gameService.fireListPlayers.subscribe(data => {
-        this.players = data;
+        this.players = data!;
       });
 
       this.storage.get('dark-mode').then(data => {

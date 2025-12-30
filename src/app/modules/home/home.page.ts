@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { faDice } from '@fortawesome/free-solid-svg-icons';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ModalAddPlayerPage } from 'src/app/components/modal-add-player/modal-add-player.page';
 import { IPlayer } from 'src/app/shared/models/player.model';
@@ -19,8 +19,9 @@ export class HomePage {
     private modalController: ModalController,
     private gameService: GameService,
     private alert: AlertController,
-    private storage: Storage
-  ) { }
+    private storage: Storage,
+    private nav: NavController,
+  ) {}
 
   async ionViewDidEnter() {
     this.players = await this.storage.get(this.gameService.playersToken);
@@ -36,7 +37,7 @@ export class HomePage {
 
   private async createModal() {
     const modal = await this.modalController.create({
-      component: ModalAddPlayerPage
+      component: ModalAddPlayerPage,
     });
     return await modal.present();
   }
@@ -48,15 +49,23 @@ export class HomePage {
       message: 'Você já possui um jogo em andamento, deseja começar outro do zero?',
       buttons: [
         {
-          text: 'Cancelar'
+          text: 'Repetir participantes',
+          handler: () => {
+            this.gameService.ereaseGame().then(() => {
+              this.nav.navigateRoot(['/game']);
+            });
+          },
+        },
+        {
+          text: 'Cancelar',
         },
         {
           text: 'OK',
           handler: () => {
             this.createModal();
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();
