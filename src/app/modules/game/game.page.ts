@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GameService } from 'src/app/shared/services/game.service';
 import { NavController, AlertController, AlertButton } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -6,21 +6,21 @@ import { IPlayer } from 'src/app/shared/models/player.model';
 import * as _ from 'lodash';
 import { Keyboard } from '@capacitor/keyboard';
 import { UtilsService } from 'src/app/shared/services/utils.service';
-
-enum ANIMATION {
-  WAS_ANIMATED = 'winner-animation',
-}
+import { ANIMATION } from 'src/app/shared/models/animation.enum';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.page.html',
   styleUrls: ['./game.page.scss'],
 })
-export class GamePage implements OnInit {
+export class GamePage implements OnInit, OnDestroy {
   public players: IPlayer[] = [];
   public isShowingAnimation = false;
   public result = '';
   public score = '';
+
+  private subsription = new Subscription();
 
   constructor(
     private gameService: GameService,
@@ -28,10 +28,60 @@ export class GamePage implements OnInit {
     private alert: AlertController,
     private storage: Storage,
     private util: UtilsService,
-  ) {}
+  ) {
+    this.subsription.add(
+      this.gameService.getEmit().subscribe((players: IPlayer[] | null) => {
+        const hasNull = players?.some(player => Object.values(player).some(val => val === null));
+
+        if (!hasNull) {
+          let showAnimation = true;
+          this.players.forEach(player => {
+            Object.entries(player).forEach(([key, value]) => {
+              if (key === 'ponto2' && ![0, 2, 4, 6, 8, 10].includes(value)) {
+                showAnimation = false;
+                return;
+              } else if (key === 'ponto3' && ![0, 3, 6, 9, 12, 15].includes(value)) {
+                showAnimation = false;
+                return;
+              } else if (key === 'ponto4' && ![0, 4, 8, 12, 16, 20].includes(value)) {
+                showAnimation = false;
+                return;
+              } else if (key === 'ponto5' && ![0, 5, 10, 15, 20, 25].includes(value)) {
+                showAnimation = false;
+                return;
+              } else if (key === 'ponto6' && ![0, 6, 12, 18, 24, 30].includes(value)) {
+                showAnimation = false;
+                return;
+              } else if (key === 'pontoS' && ![0, 20, 25].includes(value)) {
+                showAnimation = false;
+                return;
+              } else if (key === 'pontoF' && ![0, 30, 35].includes(value)) {
+                showAnimation = false;
+                return;
+              } else if (key === 'pontoP' && ![0, 40, 45].includes(value)) {
+                showAnimation = false;
+                return;
+              } else if (key === 'pontoG' && ![0, 50, 55].includes(value)) {
+                showAnimation = false;
+                return;
+              }
+            });
+          });
+
+          if (showAnimation) {
+            this.runAnimation(players!);
+          }
+        }
+      }),
+    );
+  }
 
   ngOnInit() {
     this.loadPlayers();
+  }
+
+  ngOnDestroy(): void {
+    this.subsription.unsubscribe();
   }
 
   public calcTotal(player: IPlayer, field?: string): void {
@@ -99,10 +149,6 @@ export class GamePage implements OnInit {
       return el;
     });
     this.gameService.storagePlayers(players);
-
-    setTimeout(() => {
-      this.runAnimation(players);
-    }, 4000);
   }
 
   public validatePoint(event: any, player: IPlayer, field: string): void {
@@ -149,10 +195,10 @@ export class GamePage implements OnInit {
       {
         text: 'Repetir participantes',
         handler: () => {
+          this.storage.remove(ANIMATION.WAS_ANIMATED);
           this.gameService.ereaseGame().then(() => {
             this.loadPlayers();
           });
-          this.storage.remove(ANIMATION.WAS_ANIMATED);
         },
       },
       { text: 'Não' },
@@ -172,6 +218,7 @@ export class GamePage implements OnInit {
   }
 
   private async loadPlayers() {
+    this.storage.remove(ANIMATION.WAS_ANIMATED);
     this.players = await this.storage.get(this.gameService.playersToken);
   }
 

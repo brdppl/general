@@ -3,6 +3,7 @@ import { faDice } from '@fortawesome/free-solid-svg-icons';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ModalAddPlayerPage } from 'src/app/components/modal-add-player/modal-add-player.page';
+import { ANIMATION } from 'src/app/shared/models/animation.enum';
 import { IPlayer } from 'src/app/shared/models/player.model';
 import { GameService } from 'src/app/shared/services/game.service';
 
@@ -51,6 +52,7 @@ export class HomePage {
         {
           text: 'Repetir participantes',
           handler: () => {
+            this.storage.remove(ANIMATION.WAS_ANIMATED);
             this.gameService.ereaseGame().then(() => {
               this.nav.navigateRoot(['/game']);
             });
