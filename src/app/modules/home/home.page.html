@@ -18,14 +18,17 @@
 
   <div class="btn-image rules" routerLink="/rules" routerDirection="forward">
     <div class="overlay"></div>
-    <span>
-      Regras
-    </span>
+    <span> Regras </span>
+  </div>
+
+  <div class="btn-image ranking" routerLink="/ranking" routerDirection="forward">
+    <div class="overlay"></div>
+    <span> Ranking </span>
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLink="/game" *ngIf="players">
-      <fa-icon [icon]="faDice" style="font-size: 24px;"></fa-icon>
+      <fa-icon [icon]="faDice" style="font-size: 24px"></fa-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

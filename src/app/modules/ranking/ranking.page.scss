@@ -1,0 +1,25 @@
+.medal {
+  width: 32px;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__icon {
+    font-size: 48px;
+  }
+
+  &__text {
+    margin-top: 8px;
+  }
+}
+
+.empty {
+  height: calc(100dvh - 85px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

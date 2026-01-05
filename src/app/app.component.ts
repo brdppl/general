@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { IPlayer } from './shared/models/player.model';
 import { GameService } from './shared/services/game.service';
+import { IndexedDBService } from './shared/services/indexeddb.service';
 
 enum COLOR_MODE {
   DARK = 'dark-mode',
@@ -26,6 +27,11 @@ export class AppComponent {
       url: '/rules',
       icon: 'bookmarks',
     },
+    {
+      title: 'Ranking',
+      url: '/ranking',
+      icon: 'podium',
+    },
   ];
 
   public isIOS = false;
@@ -33,7 +39,12 @@ export class AppComponent {
   public players: IPlayer[] = [];
   public faDice = faDice;
 
-  constructor(private platform: Platform, private storage: Storage, private gameService: GameService) {
+  constructor(
+    private platform: Platform,
+    private storage: Storage,
+    private gameService: GameService,
+    private idb: IndexedDBService,
+  ) {
     this.initializeApp();
   }
 
@@ -52,6 +63,7 @@ export class AppComponent {
   private initializeApp() {
     this.platform.ready().then(async () => {
       this.isIOS = this.platform.is('ios');
+      this.idb.initDB();
       this.checkIfDarkMode();
 
       this.players = await this.storage.get(this.gameService.playersToken);
