@@ -8,17 +8,24 @@
 </ion-header>
 
 <ion-content class="ion-padding" [fullscreen]="true">
-  <ion-list *ngIf="!isLoading">
-    <ion-item *ngFor="let player of ranking; let i = index" lines="full">
-      <ion-label>
-        <h2>{{ i + 1 }}º - {{ player.name }}</h2>
-        <p>Vitórias: {{ player.wins }}</p>
-      </ion-label>
-      <!-- <img
-        [src]="i === 0 ? '../../../assets/img/medal_1st.png' : i === 1 ? '../../../assets/img/medal_2nd.png' : i === 2 ? '../../../assets/img/medal_3rd.png' : ''"
-        class="medal"
-      /> -->
-      <img [src]="imagePath(player)" class="medal" />
-    </ion-item>
-  </ion-list>
+  <ng-container *ngIf="ranking && ranking.length; else emptyComponent">
+    <ion-list *ngIf="!isLoading">
+      <ion-item *ngFor="let player of ranking; let i = index" lines="full">
+        <ion-label>
+          <h2>{{ i + 1 }}º - {{ player.name }}</h2>
+          <p>Vitórias: {{ player.wins }}</p>
+        </ion-label>
+        <img [src]="imagePath(player)" class="medal" />
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-template #emptyComponent>
+    <div class="empty">
+      <ion-text color="medium" class="message">
+        <ion-icon name="podium" class="message__icon"></ion-icon>
+        <h2 class="message__text">Sem vencedores por enquanto</h2>
+      </ion-text>
+    </div>
+  </ng-template>
 </ion-content>
