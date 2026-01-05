@@ -10,7 +10,7 @@ export class UtilsService {
 
   // Random alert message
   public randomMessage(playerName: string) {
-    const random = Math.floor(Math.random() * 3);
+    const random = Math.floor(Math.random() * 4);
 
     switch (random) {
       case 0:
@@ -19,6 +19,8 @@ export class UtilsService {
         return `${this.capitalize(playerName)} humilhou geral!`;
       case 2:
         return `${this.capitalize(playerName)} é o nome da fera!`;
+      case 3:
+        return `Mas bah tchê loko! ${this.capitalize(playerName)} é muito bagual!`;
       default:
         return `Parabéns ${this.capitalize(playerName)}, você venceu!`;
     }

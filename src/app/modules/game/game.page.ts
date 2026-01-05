@@ -8,6 +8,8 @@ import { Keyboard } from '@capacitor/keyboard';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 import { ANIMATION } from 'src/app/shared/models/animation.enum';
 import { Subscription } from 'rxjs';
+import { IndexedDBService } from 'src/app/shared/services/indexeddb.service';
+import { DBEnum } from 'src/app/shared/models/db.enum';
 
 @Component({
   selector: 'app-game',
@@ -29,6 +31,7 @@ export class GamePage implements OnInit, OnDestroy {
     private storage: Storage,
     private util: UtilsService,
     private platform: Platform,
+    private idbService: IndexedDBService,
   ) {
     this.subsription.add(
       this.gameService.getEmit().subscribe((players: IPlayer[] | null) => {
@@ -196,6 +199,12 @@ export class GamePage implements OnInit, OnDestroy {
       {
         text: 'Repetir participantes',
         handler: () => {
+          const hasNull = this.players?.some(player => Object.values(player).some(val => val === null));
+          if (!hasNull) {
+            const winner = this.players!.reduce((a, b) => (a.total > b.total ? a : b));
+            const payloadWinner = { name: winner.name, wins: 1 };
+            this.updateRanking(payloadWinner);
+          }
           this.storage.remove(ANIMATION.WAS_ANIMATED);
           this.gameService.ereaseGame().then(() => {
             this.loadPlayers();
@@ -206,6 +215,12 @@ export class GamePage implements OnInit, OnDestroy {
       {
         text: 'Sim',
         handler: () => {
+          const hasNull = this.players?.some(player => Object.values(player).some(val => val === null));
+          if (!hasNull) {
+            const winner = this.players!.reduce((a, b) => (a.total > b.total ? a : b));
+            const payloadWinner = { name: winner.name, wins: 1 };
+            this.updateRanking(payloadWinner);
+          }
           this.nav.navigateRoot(['/home']);
           this.gameService.destroyGame();
           this.storage.remove(ANIMATION.WAS_ANIMATED);
@@ -288,6 +303,27 @@ export class GamePage implements OnInit, OnDestroy {
 
         this.storage.set(ANIMATION.WAS_ANIMATED, true);
       }
+    }
+  }
+
+  private async updateRanking(payload: { name: string; wins: number; id?: number }) {
+    try {
+      const rankingData = (await this.idbService.getAllData(DBEnum.RANKING_STORE)) as {
+        name: string;
+        wins: number;
+        id?: number;
+      }[];
+      const playerIsAlreadyExists = rankingData.some(item => item.name === payload.name);
+
+      if (playerIsAlreadyExists) {
+        const player = rankingData.find(item => item.name === payload.name)!;
+        payload.id = player.id;
+        payload.wins += player.wins;
+      }
+
+      return await this.idbService.updateData(DBEnum.RANKING_STORE, payload);
+    } catch (error) {
+      console.error('Error updating ranking data:', error);
     }
   }
 }
