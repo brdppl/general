@@ -323,7 +323,7 @@ export class GamePage implements OnInit, OnDestroy {
 
       return await this.idbService.updateData(DBEnum.RANKING_STORE, payload);
     } catch (error) {
-      console.error('Error updating ranking data:', error);
+      throw error;
     }
   }
 }

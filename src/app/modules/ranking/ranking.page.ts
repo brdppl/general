@@ -32,10 +32,9 @@ export class RankingPage implements OnInit {
   private async loadRanking() {
     try {
       const rankingData = await this.idbService.getAllData(DBEnum.RANKING_STORE);
-      console.log('Ranking Data:', rankingData);
       this.ranking = rankingData.sort((a, b) => b.wins - a.wins);
     } catch (error) {
-      console.error('Error loading ranking data:', error);
+      throw error;
     } finally {
       this.isLoading = false;
     }
