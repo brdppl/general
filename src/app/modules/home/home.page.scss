@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 15px;
+  border-radius: 16px;
 
   &.new-game {
     background: url('../../../assets/img/dices.jpg') no-repeat center center / cover;
@@ -25,6 +26,7 @@
     height: 100%;
     background: rgba(0,0,0,0.7);
     z-index: 5;
+    border-radius: 16px;
   }
 
   span {

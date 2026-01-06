@@ -4,6 +4,11 @@
       <ion-back-button text="Voltar"></ion-back-button>
     </ion-buttons>
     <ion-title>Ranking</ion-title>
+    <ng-container *ngIf="ranking && ranking.length">
+      <ion-buttons slot="end">
+        <ion-button color="danger" (click)="clear()">Limpar ranking</ion-button>
+      </ion-buttons>
+    </ng-container>
   </ion-toolbar>
 </ion-header>
 

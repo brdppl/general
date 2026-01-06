@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { DBEnum } from 'src/app/shared/models/db.enum';
 import { IndexedDBService } from 'src/app/shared/services/indexeddb.service';
 
@@ -8,10 +9,10 @@ import { IndexedDBService } from 'src/app/shared/services/indexeddb.service';
   styleUrls: ['./ranking.page.scss'],
 })
 export class RankingPage implements OnInit {
-  public ranking: { name: string; wins: number }[] = [];
+  public ranking: { name: string; wins: number; id?: number }[] = [];
   public isLoading = true;
 
-  constructor(private idbService: IndexedDBService) {}
+  constructor(private idbService: IndexedDBService, private alert: AlertController) {}
 
   public ngOnInit(): void {
     this.loadRanking();
@@ -29,6 +30,10 @@ export class RankingPage implements OnInit {
     return '';
   }
 
+  public clear(): void {
+    this.handleAlert();
+  }
+
   private async loadRanking() {
     try {
       const rankingData = await this.idbService.getAllData(DBEnum.RANKING_STORE);
@@ -38,5 +43,25 @@ export class RankingPage implements OnInit {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  private async handleAlert() {
+    const alert = await this.alert.create({
+      header: 'Limpar ranking',
+      message: 'Deseja mesmo limpar o ranking?',
+      buttons: [
+        { text: 'Não' },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.ranking.forEach(player => {
+              this.idbService.deleteData(DBEnum.RANKING_STORE, player.id!);
+            });
+            this.loadRanking();
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 }
