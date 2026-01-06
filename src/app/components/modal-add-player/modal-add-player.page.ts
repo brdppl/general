@@ -11,29 +11,31 @@ import { GameService } from 'src/app/shared/services/game.service';
 export class ModalAddPlayerPage {
   @ViewChildren('playerNameInput') public playerNameInputList!: QueryList<any>;
 
-  public players: IPlayer[] = [{
-    name: '',
-    ponto1: null,
-    ponto2: null,
-    ponto3: null,
-    ponto4: null,
-    ponto5: null,
-    ponto6: null,
-    pontoS: null,
-    pontoF: null,
-    pontoP: null,
-    pontoG: null,
-    total: 0,
-    index: 0
-  }];
+  public players: IPlayer[] = [
+    {
+      name: '',
+      ponto1: null,
+      ponto2: null,
+      ponto3: null,
+      ponto4: null,
+      ponto5: null,
+      ponto6: null,
+      pontoS: null,
+      pontoF: null,
+      pontoP: null,
+      pontoG: null,
+      total: 0,
+      index: 0,
+    },
+  ];
   public playerName = '';
 
   constructor(
     private modalCtrl: ModalController,
     private nav: NavController,
     private gameService: GameService,
-    private alertController: AlertController
-  ) { }
+    private alertController: AlertController,
+  ) {}
 
   async ionViewDidEnter() {
     this.playerNameInputList.last.el.setFocus();
@@ -41,7 +43,7 @@ export class ModalAddPlayerPage {
 
   public dismiss() {
     this.modalCtrl.dismiss({
-      'dismissed': true
+      dismissed: true,
     });
   }
 
@@ -59,7 +61,7 @@ export class ModalAddPlayerPage {
       pontoP: null,
       pontoG: null,
       total: 0,
-      index: this.players.length
+      index: this.players.length,
     });
     this.playerNameInputList.changes.subscribe(inputs => {
       setTimeout(() => {
@@ -91,10 +93,9 @@ export class ModalAddPlayerPage {
       header: 'Atenção',
       subHeader: 'O jogo não pôde ser iniciado',
       message: 'Informe um nome para cada jogador na partida.',
-      buttons: ['OK']
+      buttons: ['OK'],
     });
 
     await alert.present();
   }
-
 }

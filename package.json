@@ -37,6 +37,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@ionic/angular": "^6.1.9",
     "@ionic/storage": "2.2.0",
+    "@ngx-ionic/image-viewer": "^2.0.0",
     "animate.css": "^4.1.1",
     "ionicons": "^6.0.3",
     "lodash": "^4.17.21",

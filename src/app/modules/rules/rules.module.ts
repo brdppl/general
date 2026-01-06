@@ -9,12 +9,7 @@ import { RulesPageRoutingModule } from './rules-routing.module';
 import { RulesPage } from './rules.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RulesPageRoutingModule
-  ],
-  declarations: [RulesPage]
+  imports: [CommonModule, FormsModule, IonicModule, RulesPageRoutingModule],
+  declarations: [RulesPage],
 })
 export class RulesPageModule {}
