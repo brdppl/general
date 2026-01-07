@@ -33,7 +33,7 @@ export class AppComponent {
       icon: 'podium',
     },
     {
-      title: 'Histõrico',
+      title: 'Histórico',
       url: '/history',
       icon: 'time',
     },
