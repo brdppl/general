@@ -49,6 +49,16 @@ export class IndexedDBService {
     });
   }
 
+  public getById(storeName: string, id: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction(storeName, 'readonly');
+      const store = transaction.objectStore(storeName);
+      const request = store.get(id);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
   public updateData(storeName: string, data: any): Promise<void> {
     return new Promise((resolve, reject) => {
       const transaction = this.db.transaction(storeName, 'readwrite');

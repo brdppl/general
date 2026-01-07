@@ -10,6 +10,8 @@ import { ANIMATION } from 'src/app/shared/models/animation.enum';
 import { Subscription } from 'rxjs';
 import { IndexedDBService } from 'src/app/shared/services/indexeddb.service';
 import { DBEnum } from 'src/app/shared/models/db.enum';
+import { IHistory } from 'src/app/shared/models/history.model';
+import { IRanking } from 'src/app/shared/models/ranking.model';
 
 @Component({
   selector: 'app-game',
@@ -202,8 +204,9 @@ export class GamePage implements OnInit, OnDestroy {
           const hasNull = this.players?.some(player => Object.values(player).some(val => val === null));
           if (!hasNull) {
             const winner = this.players!.reduce((a, b) => (a.total > b.total ? a : b));
-            const payloadWinner = { name: winner.name, wins: 1 };
+            const payloadWinner: IRanking = { name: winner.name, wins: 1, total: winner.total };
             this.updateRanking(payloadWinner);
+            this.saveGameHistory();
           }
           this.storage.remove(ANIMATION.WAS_ANIMATED);
           this.gameService.ereaseGame().then(() => {
@@ -218,8 +221,9 @@ export class GamePage implements OnInit, OnDestroy {
           const hasNull = this.players?.some(player => Object.values(player).some(val => val === null));
           if (!hasNull) {
             const winner = this.players!.reduce((a, b) => (a.total > b.total ? a : b));
-            const payloadWinner = { name: winner.name, wins: 1 };
+            const payloadWinner: IRanking = { name: winner.name, wins: 1, total: winner.total };
             this.updateRanking(payloadWinner);
+            this.saveGameHistory();
           }
           this.nav.navigateRoot(['/home']);
           this.gameService.destroyGame();
@@ -306,24 +310,30 @@ export class GamePage implements OnInit, OnDestroy {
     }
   }
 
-  private async updateRanking(payload: { name: string; wins: number; id?: number }) {
+  private async updateRanking(payload: IRanking): Promise<void> {
     try {
-      const rankingData = (await this.idbService.getAllData(DBEnum.RANKING_STORE)) as {
-        name: string;
-        wins: number;
-        id?: number;
-      }[];
+      const rankingData = (await this.idbService.getAllData(DBEnum.RANKING_STORE)) as IRanking[];
       const playerIsAlreadyExists = rankingData.some(item => item.name === payload.name);
 
       if (playerIsAlreadyExists) {
         const player = rankingData.find(item => item.name === payload.name)!;
         payload.id = player.id;
         payload.wins += player.wins;
+        payload.total += player.total;
       }
 
       return await this.idbService.updateData(DBEnum.RANKING_STORE, payload);
     } catch (error) {
       throw error;
     }
+  }
+
+  private async saveGameHistory(): Promise<void> {
+    const history: IHistory = {
+      game: this.players,
+      gameDate: new Date(),
+    };
+
+    return await this.idbService.updateData(DBEnum.HISTORY_STORE, history);
   }
 }

@@ -26,7 +26,11 @@ const routes: Routes = [
   {
     path: 'modal-add-player',
     loadChildren: () =>
-      import('./components/modal-add-player/modal-add-player.module').then(m => m.ModalAddPlayerPageModule),
+      import('./shared/components/modal-add-player/modal-add-player.module').then(m => m.ModalAddPlayerPageModule),
+  },
+  {
+    path: 'history',
+    loadChildren: () => import('./modules/history/history.module').then( m => m.HistoryPageModule)
   },
 ];
 

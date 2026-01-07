@@ -32,6 +32,11 @@ export class AppComponent {
       url: '/ranking',
       icon: 'podium',
     },
+    {
+      title: 'Histõrico',
+      url: '/history',
+      icon: 'time',
+    },
   ];
 
   public isIOS = false;
