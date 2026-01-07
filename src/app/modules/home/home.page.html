@@ -27,6 +27,11 @@
     <span> Ranking </span>
   </div>
 
+  <div class="btn-image history" routerLink="/history" routerDirection="forward">
+    <div class="overlay"></div>
+    <span> Histórico </span>
+  </div>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLink="/game" *ngIf="players">
       <fa-icon [icon]="faDice" style="font-size: 24px"></fa-icon>

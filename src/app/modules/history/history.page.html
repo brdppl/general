@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Voltar"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Histórico</ion-title>
+    <ng-container *ngIf="history && history.length">
+      <ion-buttons slot="end">
+        <ion-button (click)="sortHistory()">
+          Ordenar
+          <ion-icon [name]="sortDirection === 'desc' ? 'caret-down' : 'caret-up'"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ng-container>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <ng-container *ngIf="history && history.length; else emptyComponent">
+    <ion-list *ngIf="!isLoading">
+      <ion-item *ngFor="let history of history; let i = index" lines="full" button (click)="navigate(history.id!)">
+        <ion-label>
+          <h2>{{ history.gameDate | date : "EEE, d 'de' MMM 'de' y 'às' HH:mm" }}</h2>
+          <p>Vencedor(a): <b>{{ pickWinner(history.game).name }}</b></p>
+          <p>Pontuação: <b>{{ pickWinner(history.game).total }}</b></p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-template #emptyComponent>
+    <div class="empty">
+      <ion-text color="medium" class="message">
+        <ion-icon name="time" class="message__icon"></ion-icon>
+        <h2 class="message__text">Sem jogos por enquanto</h2>
+      </ion-text>
+    </div>
+  </ng-template>
+</ion-content>
+
+<ng-container *ngIf="history && history.length">
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button expand="full" color="danger" size="large" (click)="clear()">
+        <ion-icon slot="start" name="trash"></ion-icon>
+        Limpar histórico
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ng-container>

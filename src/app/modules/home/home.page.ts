@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { faDice } from '@fortawesome/free-solid-svg-icons';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { ModalAddPlayerPage } from 'src/app/components/modal-add-player/modal-add-player.page';
+import { ModalAddPlayerPage } from 'src/app/shared/components/modal-add-player/modal-add-player.page';
 import { ANIMATION } from 'src/app/shared/models/animation.enum';
 import { IPlayer } from 'src/app/shared/models/player.model';
 import { GameService } from 'src/app/shared/services/game.service';

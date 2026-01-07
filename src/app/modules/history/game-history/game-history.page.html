@@ -1,0 +1,91 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Voltar"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ history.gameDate | date: "dd/MM/yyyy 'às' HH:mm" }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th *ngFor="let player of history.game">{{ player.name }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.ponto1 }} </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.ponto2 }} </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.ponto3 }} </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.ponto4 }} </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.ponto5 }} </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.ponto6 }} </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>S</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.pontoS }} </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>F</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.pontoF }} </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>P</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.pontoP }} </ion-item>
+        </td>
+      </tr>
+      <tr>
+        <td>G</td>
+        <td *ngFor="let player of history.game">
+          <ion-item> {{ player.pontoG }} </ion-item>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>T</td>
+        <td *ngFor="let player of history.game">
+          <div class="d-flex h-center" style="padding: 15px">
+            <strong>{{ player.total }}</strong>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</ion-content>

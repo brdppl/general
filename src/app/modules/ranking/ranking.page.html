@@ -6,7 +6,10 @@
     <ion-title>Ranking</ion-title>
     <ng-container *ngIf="ranking && ranking.length">
       <ion-buttons slot="end">
-        <ion-button color="danger" (click)="clear()">Limpar ranking</ion-button>
+        <ion-button (click)="sortRanking()" class="sort-button">
+          <span>{{ sortType === 'wins' ? 'Vitórias' : 'Pontos' }}</span>
+          <ion-icon [name]="sortType === 'wins' ? 'trophy-outline' : 'speedometer-outline'"></ion-icon>
+        </ion-button>
       </ion-buttons>
     </ng-container>
   </ion-toolbar>
@@ -18,7 +21,8 @@
       <ion-item *ngFor="let player of ranking; let i = index" lines="full">
         <ion-label>
           <h2>{{ i + 1 }}º - {{ player.name }}</h2>
-          <p>Vitórias: {{ player.wins }}</p>
+          <p>Vitórias: <b>{{ player.wins }}</b></p>
+          <p>Pontuação total: <b>{{ player.total }}</b></p>
         </ion-label>
         <img [src]="imagePath(player)" class="medal" />
       </ion-item>
@@ -34,3 +38,14 @@
     </div>
   </ng-template>
 </ion-content>
+
+<ng-container *ngIf="ranking && ranking.length">
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button expand="full" color="danger" size="large" (click)="clear()">
+        <ion-icon slot="start" name="trash"></ion-icon>
+        Limpar ranking
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ng-container>

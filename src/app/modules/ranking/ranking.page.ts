@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { DBEnum } from 'src/app/shared/models/db.enum';
+import { IRanking } from 'src/app/shared/models/ranking.model';
 import { IndexedDBService } from 'src/app/shared/services/indexeddb.service';
 
 @Component({
@@ -9,8 +10,9 @@ import { IndexedDBService } from 'src/app/shared/services/indexeddb.service';
   styleUrls: ['./ranking.page.scss'],
 })
 export class RankingPage implements OnInit {
-  public ranking: { name: string; wins: number; id?: number }[] = [];
+  public ranking: IRanking[] = [];
   public isLoading = true;
+  public sortType: 'wins' | 'total' = 'wins';
 
   constructor(private idbService: IndexedDBService, private alert: AlertController) {}
 
@@ -18,7 +20,7 @@ export class RankingPage implements OnInit {
     this.loadRanking();
   }
 
-  public imagePath(player: { name: string; wins: number }): string {
+  public imagePath(player: IRanking): string {
     if (this.ranking.indexOf(player) === 0) {
       return '../../../assets/img/medal_1st.png';
     } else if (this.ranking.indexOf(player) === 1) {
@@ -32,6 +34,16 @@ export class RankingPage implements OnInit {
 
   public clear(): void {
     this.handleAlert();
+  }
+
+  public sortRanking(): void {
+    if (this.sortType === 'wins') {
+      this.sortType = 'total';
+      this.ranking.sort((a, b) => b.total - a.total);
+    } else {
+      this.sortType = 'wins';
+      this.ranking.sort((a, b) => b.wins - a.wins);
+    }
   }
 
   private async loadRanking() {
