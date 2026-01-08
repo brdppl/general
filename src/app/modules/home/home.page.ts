@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { faDice } from '@fortawesome/free-solid-svg-icons';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { ModalAddPlayerPage } from 'src/app/shared/components/modal-add-player/modal-add-player.page';
 import { ANIMATION } from 'src/app/shared/models/animation.enum';
 import { IPlayer } from 'src/app/shared/models/player.model';
@@ -22,9 +23,11 @@ export class HomePage {
     private alert: AlertController,
     private storage: Storage,
     private nav: NavController,
+    private gaService: GoogleAnalyticsService,
   ) {}
 
   async ionViewDidEnter() {
+    this.gaService.pageView('/home', 'Página Home');
     this.players = await this.storage.get(this.gameService.playersToken);
   }
 

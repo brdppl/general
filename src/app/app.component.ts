@@ -21,21 +21,25 @@ export class AppComponent {
       title: 'Home',
       url: '/home',
       icon: 'home',
+      gaAction: 'click_home_button',
     },
     {
       title: 'Regras',
       url: '/rules',
       icon: 'bookmarks',
+      gaAction: 'click_rules_button',
     },
     {
       title: 'Ranking',
       url: '/ranking',
       icon: 'podium',
+      gaAction: 'click_ranking_button',
     },
     {
       title: 'Histórico',
       url: '/history',
       icon: 'time',
+      gaAction: 'click_history_button',
     },
   ];
 

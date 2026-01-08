@@ -12,6 +12,7 @@ import { IndexedDBService } from 'src/app/shared/services/indexeddb.service';
 import { DBEnum } from 'src/app/shared/models/db.enum';
 import { IHistory } from 'src/app/shared/models/history.model';
 import { IRanking } from 'src/app/shared/models/ranking.model';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 
 @Component({
   selector: 'app-game',
@@ -34,6 +35,7 @@ export class GamePage implements OnInit, OnDestroy {
     private util: UtilsService,
     private platform: Platform,
     private idbService: IndexedDBService,
+    private gaService: GoogleAnalyticsService,
   ) {
     this.subsription.add(
       this.gameService.getEmit().subscribe((players: IPlayer[] | null) => {
@@ -83,6 +85,7 @@ export class GamePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.gaService.pageView('/game', 'Página Game');
     this.loadPlayers();
   }
 
@@ -197,10 +200,12 @@ export class GamePage implements OnInit, OnDestroy {
   }
 
   public finish() {
+    this.gaService.event('click_finish_button', 'game_actions', 'Jogo');
     this.handleAlert('Atenção', 'Deseja realmente finalizar esta partida?', [
       {
         text: 'Repetir participantes',
         handler: () => {
+          this.gaService.event('click_repeatPlayers_button', 'game_actions', 'Jogo');
           const hasNull = this.players?.some(player => Object.values(player).some(val => val === null));
           if (!hasNull) {
             const winner = this.players!.reduce((a, b) => (a.total > b.total ? a : b));
@@ -214,10 +219,16 @@ export class GamePage implements OnInit, OnDestroy {
           });
         },
       },
-      { text: 'Não' },
+      {
+        text: 'Não',
+        handler: () => {
+          this.gaService.event('click_cancel_button', 'game_actions', 'Jogo');
+        },
+      },
       {
         text: 'Sim',
         handler: () => {
+          this.gaService.event('click_ok_button', 'game_actions', 'Jogo');
           const hasNull = this.players?.some(player => Object.values(player).some(val => val === null));
           if (!hasNull) {
             const winner = this.players!.reduce((a, b) => (a.total > b.total ? a : b));
@@ -234,6 +245,7 @@ export class GamePage implements OnInit, OnDestroy {
   }
 
   public closeAnimation() {
+    this.gaService.event('click_close_animation', 'game_actions', 'Jogo');
     if (this.isShowingAnimation) this.isShowingAnimation = false;
   }
 
@@ -252,6 +264,7 @@ export class GamePage implements OnInit, OnDestroy {
   }
 
   private async runAnimation(players: IPlayer[]) {
+    this.gaService.event('fire_win_animation', 'game_actions', 'Jogo');
     const wasAnimated = await this.storage.get(ANIMATION.WAS_ANIMATED);
 
     if (!wasAnimated) {

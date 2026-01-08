@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { DBEnum } from 'src/app/shared/models/db.enum';
 import { IHistory } from 'src/app/shared/models/history.model';
 import { IPlayer } from 'src/app/shared/models/player.model';
@@ -15,9 +16,15 @@ export class HistoryPage implements OnInit {
   public isLoading = true;
   public sortDirection: 'asc' | 'desc' = 'desc';
 
-  constructor(private idbService: IndexedDBService, private nav: NavController, private alert: AlertController) {}
+  constructor(
+    private idbService: IndexedDBService,
+    private nav: NavController,
+    private alert: AlertController,
+    private gaService: GoogleAnalyticsService,
+  ) {}
 
   public ngOnInit(): void {
+    this.gaService.pageView('/history', 'Página Histórico');
     this.loadHistory();
   }
 
@@ -31,6 +38,7 @@ export class HistoryPage implements OnInit {
   }
 
   public sortHistory(): void {
+    this.gaService.event('click_sort_button', 'history_actions', 'Histórico');
     if (this.sortDirection === 'desc') {
       this.sortDirection = 'asc';
       this.history.sort((a, b) => a.gameDate.getTime() - b.gameDate.getTime());
@@ -56,14 +64,21 @@ export class HistoryPage implements OnInit {
   }
 
   private async handleAlert() {
+    this.gaService.event('click_clear_button', 'history_actions', 'Histórico');
     const alert = await this.alert.create({
       header: 'Limpar histórico',
       message: 'Deseja mesmo limpar o histórico?',
       buttons: [
-        { text: 'Não' },
+        {
+          text: 'Não',
+          handler: () => {
+            this.gaService.event('click_cancel_button', 'history_actions', 'Histórico');
+          },
+        },
         {
           text: 'Sim',
           handler: () => {
+            this.gaService.event('click_ok_button', 'history_actions', 'Histórico');
             this.history.forEach(history => {
               this.idbService.deleteData(DBEnum.HISTORY_STORE, history.id!);
             });
