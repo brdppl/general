@@ -4,6 +4,7 @@ import { DBEnum } from 'src/app/shared/models/db.enum';
 import { IHistory } from 'src/app/shared/models/history.model';
 import { IndexedDBService } from 'src/app/shared/services/indexeddb.service';
 import { firstValueFrom } from 'rxjs';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 
 @Component({
   selector: 'app-game-history',
@@ -14,9 +15,14 @@ export class GameHistoryPage implements OnInit {
   public history: IHistory = <IHistory>{};
   public isLoading = true;
 
-  constructor(private idbService: IndexedDBService, private route: ActivatedRoute) {}
+  constructor(
+    private idbService: IndexedDBService,
+    private route: ActivatedRoute,
+    private gaService: GoogleAnalyticsService,
+  ) {}
 
   public ngOnInit(): void {
+    this.gaService.pageView('/history/game-history', 'Página Histórico do Jogo');
     this.loadHistory();
   }
 

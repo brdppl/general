@@ -1,5 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { GoogleAnalyticsService } from 'ngx-google-analytics';
 import { IPlayer } from 'src/app/shared/models/player.model';
 import { GameService } from 'src/app/shared/services/game.service';
 
@@ -35,6 +36,7 @@ export class ModalAddPlayerPage {
     private nav: NavController,
     private gameService: GameService,
     private alertController: AlertController,
+    private gaService: GoogleAnalyticsService,
   ) {}
 
   async ionViewDidEnter() {
@@ -76,8 +78,10 @@ export class ModalAddPlayerPage {
 
   public begin() {
     if (this.isPlayersValid()) {
+      this.gaService.event('click_start_game_invalid', 'start_game', 'Começar o jogo');
       this.handleAlert();
     } else {
+      this.gaService.event('click_start_game_valid', 'start_game', 'Começar o jogo');
       this.gameService.storagePlayers(this.players);
       this.nav.navigateForward(['/game']);
       this.dismiss();

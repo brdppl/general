@@ -9,7 +9,13 @@
 </ion-header>
 
 <ion-content class="ion-padding" [fullscreen]="true">
-  <div class="btn-image new-game" (click)="addPlayers()">
+  <div
+    class="btn-image new-game"
+    (click)="addPlayers()"
+    gaEvent
+    gaAction="click_newGame_button"
+    gaCategory="home_buttons"
+  >
     <div class="overlay"></div>
     <span>
       <ion-icon slot="start" name="add"></ion-icon>
@@ -17,23 +23,50 @@
     </span>
   </div>
 
-  <div class="btn-image rules" routerLink="/rules" routerDirection="forward">
+  <div
+    class="btn-image rules"
+    routerLink="/rules"
+    routerDirection="forward"
+    gaEvent
+    gaAction="click_rules_button"
+    gaCategory="home_buttons"
+  >
     <div class="overlay"></div>
     <span> Regras </span>
   </div>
 
-  <div class="btn-image ranking" routerLink="/ranking" routerDirection="forward">
+  <div
+    class="btn-image ranking"
+    routerLink="/ranking"
+    routerDirection="forward"
+    gaEvent
+    gaAction="click_ranking_button"
+    gaCategory="home_buttons"
+  >
     <div class="overlay"></div>
     <span> Ranking </span>
   </div>
 
-  <div class="btn-image history" routerLink="/history" routerDirection="forward">
+  <div
+    class="btn-image history"
+    routerLink="/history"
+    routerDirection="forward"
+    gaEvent
+    gaAction="click_history_button"
+    gaCategory="home_buttons"
+  >
     <div class="overlay"></div>
     <span> Histórico </span>
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="/game" *ngIf="players">
+    <ion-fab-button
+      routerLink="/game"
+      *ngIf="players"
+      gaEvent
+      gaAction="click_currentGame_button"
+      gaCategory="home_buttons"
+    >
       <fa-icon [icon]="faDice" style="font-size: 24px"></fa-icon>
     </ion-fab-button>
   </ion-fab>

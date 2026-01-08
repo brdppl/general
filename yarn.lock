@@ -6162,6 +6162,13 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+ngx-google-analytics@^14.0.1:
+  version "14.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-google-analytics/-/ngx-google-analytics-14.0.1.tgz#aa5bef2a688b224f3ad6d1524cb473bfc912e253"
+  integrity sha512-PfOtnshSyq15EKevKlFW9IRgH+dTtPG4Q9HJYksuRNYDzjce0eqK3Bf6hz0tAZdyqbzTCyx5g+NgWBfpqQfb2w==
+  dependencies:
+    tslib "^2.4.0"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"

@@ -9,7 +9,13 @@
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item [routerDirection]="p.url === '/home' ? 'root' : 'forward'" [routerLink]="[p.url]">
+            <ion-item
+              [routerDirection]="p.url === '/home' ? 'root' : 'forward'"
+              [routerLink]="[p.url]"
+              gaEvent
+              [gaAction]="p.gaAction"
+              gaCategory="sidemenu_buttons"
+            >
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
               <ion-label>
                 {{ p.title }}
@@ -17,7 +23,13 @@
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false" *ngIf="players">
-            <ion-item [routerDirection]="'forward'" routerLink="/game">
+            <ion-item
+              [routerDirection]="'forward'"
+              routerLink="/game"
+              gaEvent
+              gaAction="click_currentGame_button"
+              gaCategory="sidemenu_buttons"
+            >
               <fa-icon
                 slot="start"
                 [icon]="faDice"
@@ -26,7 +38,7 @@
               <ion-label> Jogo em andamento </ion-label>
             </ion-item>
           </ion-menu-toggle>
-          <ion-item (click)="toggleTheme()">
+          <ion-item (click)="toggleTheme()" gaEvent gaAction="click_theme_button" gaCategory="sidemenu_buttons">
             <ion-icon slot="start" name="moon"></ion-icon>
             <ion-label>Modo escuro</ion-label>
             <ion-toggle slot="end" [checked]="isDarkMode"></ion-toggle>

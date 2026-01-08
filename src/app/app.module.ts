@@ -10,7 +10,10 @@ import { IonicStorageModule } from '@ionic/storage';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { registerLocaleData } from '@angular/common';
+import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
+
 import localePt from '@angular/common/locales/pt';
+import { environment } from 'src/environments/environment';
 
 registerLocaleData(localePt);
 
@@ -28,6 +31,8 @@ registerLocaleData(localePt);
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    NgxGoogleAnalyticsModule.forRoot(environment.ga_code),
+    NgxGoogleAnalyticsRouterModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
