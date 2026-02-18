@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GameService } from 'src/app/shared/services/game.service';
 import { NavController, AlertController, AlertButton, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -19,7 +19,9 @@ import { GoogleAnalyticsService } from 'ngx-google-analytics';
   templateUrl: './game.page.html',
   styleUrls: ['./game.page.scss'],
 })
-export class GamePage implements OnInit, OnDestroy {
+export class GamePage implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('gameTpl') gameTpl!: any;
+
   public players: IPlayer[] = [];
   public isShowingAnimation = false;
   public result = '';
@@ -87,6 +89,15 @@ export class GamePage implements OnInit, OnDestroy {
   ngOnInit() {
     this.gaService.pageView('/game', 'Página Game');
     this.loadPlayers();
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const mainEl = this.gameTpl?.el?.shadowRoot?.children[1];
+      if (mainEl) {
+        mainEl.style = 'overflow-x: auto';
+      }
+    }, 0);
   }
 
   ngOnDestroy(): void {

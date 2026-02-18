@@ -29,6 +29,10 @@ table {
   }
 }
 
+ion-input {
+  min-width: 30px;
+}
+
 // Create the explosion...
 $box-shadow: ();
 $box-shadow2: ();
